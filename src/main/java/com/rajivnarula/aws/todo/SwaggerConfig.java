@@ -40,10 +40,10 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter{
 
     private ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
-                "My Project's REST API",
-                "This is a description of your API.",
+                "TODO List manager",
+                "Provides services to create task and retrieve task list",
                 "API TOS",
-                "me@wherever.com",
+                "rajiv.narula@gmail.com",
                 "API License",
                 "API License URL"
         );

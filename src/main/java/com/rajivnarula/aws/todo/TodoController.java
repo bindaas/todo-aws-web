@@ -32,7 +32,9 @@ static DynamoDB dynamoDB = new DynamoDB(new AmazonDynamoDBClient(new InstancePro
 String QUEUE_URL = "https://sqs.us-east-1.amazonaws.com/673411742439/TODO" ;
 
 	@RequestMapping(value = "/todo", method = { RequestMethod.POST })
-    public String registerTask(@RequestParam(value = "task", required = true) String task, @RequestParam(value = "user_id", required = true) String userId) {
+	@ApiOperation(value = "Create a task")
+    public String registerTask(@ApiParam(name="task", value="the task", required=true) @RequestParam(value = "task", required = true) String task,
+    							@ApiParam(name="email_id", value="email address", required=true) @RequestParam(value = "email_id", required = true) String userId) {
 		long uuid = createTask (task) ;
 		createUser(userId, uuid);
      	return "task->"+task;
@@ -72,8 +74,10 @@ String QUEUE_URL = "https://sqs.us-east-1.amazonaws.com/673411742439/TODO" ;
 
 
 
-	@RequestMapping(value = "/todo/user/{user_id}/", method = { RequestMethod.GET })
-    public String getTaskList(@PathVariable(value = "user_id") String userId , @RequestParam(value = "email", required = false) String email) {
+	@RequestMapping(value = "/todo/user/{email_id}/", method = { RequestMethod.GET })
+	@ApiOperation(value = "get Task list- either by web service or submit a request to get it emailed")
+    public String getTaskList(@ApiParam(name="email_id", value="email address", required=true) @PathVariable(value = "email_id") String userId ,
+    						  @ApiParam(name="emailReport", value="yes or no", required=true) @RequestParam(value = "emailReport", required = false) String email) {
 		if ((email != null)&&("yes".equalsIgnoreCase(email))){
 			AmazonSQS sqs = new AmazonSQSClient(new InstanceProfileCredentialsProvider().getCredentials());
 			sqs.sendMessage(new SendMessageRequest(QUEUE_URL, userId));
