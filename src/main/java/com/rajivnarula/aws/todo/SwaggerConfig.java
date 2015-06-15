@@ -54,16 +54,4 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter{
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("/");
     }
-
-	@Bean
-    public UrlBasedViewResolver urlBasedViewResolver()
-    {
-        UrlBasedViewResolver res = new InternalResourceViewResolver();
-        res.setViewClass(JstlView.class);
-        res.setPrefix("/swagger");
-        res.setSuffix(".html");
-
-        return res;
-    }
-
 }
